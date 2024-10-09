@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import ThemeProvider from "@/components/providers/ThemeProvider";
 import "./globals.css";
 import ConvexProvider from "@/components/providers/ConvexProvider";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Dotion",
@@ -24,6 +25,7 @@ export default function RootLayout({
             disableTransitionOnChange
             storageKey="dotion-theme"
           >
+            <Toaster position="bottom-center" richColors />
             {children}
           </ThemeProvider>
         </ConvexProvider>
