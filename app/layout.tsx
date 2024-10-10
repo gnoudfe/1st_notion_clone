@@ -25,7 +25,7 @@ export default function RootLayout({
             disableTransitionOnChange
             storageKey="dotion-theme"
           >
-            <Toaster position="bottom-center" richColors />
+            <Toaster position="bottom-center"  />
             {children}
           </ThemeProvider>
         </ConvexProvider>

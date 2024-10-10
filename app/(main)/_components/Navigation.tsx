@@ -25,8 +25,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { TrashBox } from "./TrashBox";
+import { useSearch } from "@/hooks/useSearch";
+import { useSettings } from "@/hooks/useSettings";
 
 const Navigation = () => {
+  const settings = useSettings();
+  const search = useSearch();
   const pathName = usePathname();
   const isMobile = useMediaQuery("(max-width: 768px");
   const isResizingRef = useRef<boolean>(false);
@@ -108,7 +112,7 @@ const Navigation = () => {
   }, [isMobile, pathName]);
 
   const handleCreate = () => {
-    const promise = create({ title: "New page" });
+    const promise = create({ title: "New note" });
     toast.promise(promise, {
       loading: "Creating a new note...",
       success: "New note created!",
@@ -139,12 +143,12 @@ const Navigation = () => {
         </div>
         <div>
           <UserItem />
-          <Item label="Settings" icon={Settings2Icon} onClick={() => {}} />
-          <Item label="Search" icon={Search} isSearch onClick={() => {}} />
-          <Item onClick={handleCreate} label="New page" icon={PlusCircle} />
+          <Item label="Settings" icon={Settings2Icon} onClick={settings.onOpen} />
+          <Item label="Search" icon={Search} isSearch onClick={search.onOpen} />
+          <Item onClick={handleCreate} label="Create a note" icon={PlusCircle} />
         </div>
         <div className="mt-4">
-          <Item label="Add a page" icon={Plus} onClick={handleCreate} />
+          <Item label="Add a note" icon={Plus} onClick={handleCreate} />
           <DocumentList />
 
           <Popover>

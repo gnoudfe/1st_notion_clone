@@ -1,8 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-
-import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
@@ -10,8 +8,6 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { useMutation } from "convex/react";
 import {
@@ -75,12 +71,12 @@ export default function Item({
   const onCreate = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.stopPropagation();
     if (!id) return;
-    const promise = create({ title: "New Page", parentDocument: id }).then(
+    const promise = create({ title: "New note", parentDocument: id }).then(
       (documentId) => {
         if (!expanded) {
           onExpand?.();
         }
-        // router.push(`/documents/${documentId}`);
+        router.push(`/documents/${documentId}`);
       }
     );
 
@@ -170,15 +166,3 @@ export default function Item({
     </div>
   );
 }
-
-Item.Skeleton = function ItemSkeleton({ level }: { level?: number }) {
-  return (
-    <div
-      className="flex gap-x-2 py-[3px]"
-      style={{ paddingLeft: level ? `${level * 12 + 25}px` : "12px" }}
-    >
-      <Skeleton className="w-4 h-4" />
-      <Skeleton className="w-4 h-[30%]" />
-    </div>
-  );
-};

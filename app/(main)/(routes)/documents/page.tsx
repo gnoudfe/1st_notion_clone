@@ -13,7 +13,7 @@ const DocumentsPage = () => {
   const create = useMutation(api.document.create);
 
   const onCreate = () => {
-    const promise = create({ title: "New page" });
+    const promise = create({ title: "New note" });
     toast.promise(promise, {
       loading: "Creating a new note...",
       success: "New note created!",
@@ -38,9 +38,7 @@ const DocumentsPage = () => {
         className="dark:hidden block"
       />
 
-      <h2 className="text-lg font-medium">
-        Welcome to {user?.firstName}&apos;s Dotion
-      </h2>
+      <h2 className="text-lg font-medium">Have a good day, {user?.fullName}</h2>
       <Button onClick={onCreate}>
         <PlusCircleIcon className="w-4 h-4 block mr-2" />
         Create a note
