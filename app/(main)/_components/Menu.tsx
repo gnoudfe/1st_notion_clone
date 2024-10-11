@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,14 +23,14 @@ const Menu = ({ documentId }: MenuProps) => {
   const archive = useMutation(api.document.archive);
 
   const onArchive = () => {
-    const promise = archive({ id: documentId });
-    router.push("/documents");
+    const promise = archive({ id: documentId }).then(() =>
+      router.push("/documents")
+    );
     toast.promise(promise, {
       loading: "Moving to trash...",
       success: "Note moved to trash!",
       error: "Failed to delete note.",
     });
-
   };
   return (
     <DropdownMenu>

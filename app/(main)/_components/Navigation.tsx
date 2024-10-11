@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import {
   ChevronsLeft,
+  Home,
   MenuIcon,
   Plus,
   PlusCircle,
@@ -10,7 +11,7 @@ import {
   Settings2Icon,
   Trash,
 } from "lucide-react";
-import { useParams, usePathname } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import React, { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import UserItem from "./UserItem";
@@ -41,7 +42,7 @@ const Navigation = () => {
   const [isResetting, setIsResetting] = useState<boolean>(false);
   const [isCollapsed, setIsCollapsed] = useState<boolean>(isMobile);
   const create = useMutation(api.document.create);
-
+  const router = useRouter();
   const handleMouseDown = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
@@ -114,7 +115,9 @@ const Navigation = () => {
   }, [isMobile, pathName]);
 
   const handleCreate = () => {
-    const promise = create({ title: "New note" });
+    const promise = create({ title: "New note" }).then((documentId) =>
+      router.push(`/documents/${documentId}`)
+    );
     toast.promise(promise, {
       loading: "Creating a new note...",
       success: "New note created!",
@@ -156,11 +159,16 @@ const Navigation = () => {
             label="Create a note"
             icon={PlusCircle}
           />
+          <Item
+            label="Home"
+            icon={Home}
+            active={pathName === "/documents"}
+            onClick={() => router.push("/documents")}
+          />
         </div>
         <div className="mt-4">
           <Item label="Add a note" icon={Plus} onClick={handleCreate} />
           <DocumentList />
-
           <Popover>
             <PopoverTrigger className="w-full mt-4">
               <Item label="Trash" icon={Trash} />

@@ -41,9 +41,9 @@ const Cover = ({ url, preview }: CoverImageProps) => {
   return (
     <div
       className={cn(
-        "relative w-full h-[35vh] group mt-[52px]",
-        !url && "h-[15vh]",
-        url && "bg-muted"
+        "relative w-full group mt-[52px]",
+        !url && "h-[10vh]",
+        url && "bg-muted h-[35vh]"
       )}
     >
       {!!url && <Image src={url} fill alt="Cover" className="object-cover" />}

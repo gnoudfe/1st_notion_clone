@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useQuery, useMutation } from "convex/react";
 import { Search, Trash, Undo } from "lucide-react";
 import { toast } from "sonner";
@@ -13,7 +13,6 @@ import ConfirmModal from "@/components/modals/ConfirmModal";
 
 export function TrashBox() {
   const router = useRouter();
-  const params = useParams();
   const documents = useQuery(api.document.getTrash);
   const restore = useMutation(api.document.restore);
   const remove = useMutation(api.document.remove);
@@ -44,16 +43,13 @@ export function TrashBox() {
   };
 
   const onRemove = (documentId: Id<"documents">) => {
+    router.push("/documents");
     const promise = remove({ id: documentId });
-
     toast.promise(promise, {
       loading: "Deleting note...",
       success: "Note deleted!",
-      error: "Failed to delete note",
+      error: "Failed to delete note.",
     });
-    if (params.documentId === documentId) {
-      router.push("/documents");
-    }
   };
 
   if (documents === undefined) {
