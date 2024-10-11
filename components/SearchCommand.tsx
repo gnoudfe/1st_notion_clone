@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/clerk-react";
 
 import {
+  Command,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
@@ -53,27 +54,29 @@ export function SearchCommand() {
 
   return (
     <CommandDialog open={isOpen} onOpenChange={onClose}>
-      <CommandInput placeholder={`Search ${user?.fullName}'s Dotion`} />
-      <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup>
-          {documents?.map((document) => (
-            <CommandItem
-              key={document._id}
-              value={`${document._id}-${document.title}`}
-              title={document.title}
-              onSelect={onSelect}
-            >
-              {document.icon ? (
-                <p className="mr-2 text-[18px]">{document.icon}</p>
-              ) : (
-                <File className="w-4 h-4 mr-2" />
-              )}
-              <span>{document.title}</span>
-            </CommandItem>
-          ))}
-        </CommandGroup>
-      </CommandList>
+      <Command>
+        <CommandInput placeholder={`Search ${user?.fullName}'s Dotion`} />
+        <CommandList>
+          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandGroup>
+            {documents?.map((document) => (
+              <CommandItem
+                key={document._id}
+                value={`${document._id}-${document.title}`}
+                title={document.title}
+                onSelect={() => onSelect(document._id)}
+              >
+                {document.icon ? (
+                  <p className="mr-2 text-[18px]">{document.icon}</p>
+                ) : (
+                  <File className="w-4 h-4 mr-2" />
+                )}
+                <span>{document.title}</span>
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </CommandList>
+      </Command>
     </CommandDialog>
   );
 }

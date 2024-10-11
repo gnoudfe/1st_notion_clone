@@ -21,6 +21,7 @@ const config = {
       colors: {
         border: "hsl(var(--border))",
         "custom-gray": "rgb(37, 37, 37)",
+        "custom-sidebar": "rgb(247, 247, 245)",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",

@@ -10,7 +10,7 @@ import {
   Settings2Icon,
   Trash,
 } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import React, { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import UserItem from "./UserItem";
@@ -27,10 +27,12 @@ import {
 import { TrashBox } from "./TrashBox";
 import { useSearch } from "@/hooks/useSearch";
 import { useSettings } from "@/hooks/useSettings";
+import Navbar from "./Navbar";
 
 const Navigation = () => {
   const settings = useSettings();
   const search = useSearch();
+  const params = useParams();
   const pathName = usePathname();
   const isMobile = useMediaQuery("(max-width: 768px");
   const isResizingRef = useRef<boolean>(false);
@@ -125,7 +127,7 @@ const Navigation = () => {
       <aside
         ref={sidebarRef}
         className={cn(
-          "group/sidebar h-screen  bg-neutral-300  dark:bg-custom-gray overflow-y-auto relative flex w-60 flex-col z-[99999]",
+          "group/sidebar h-screen bg-custom-sidebar  dark:bg-custom-gray overflow-y-auto relative flex w-60 flex-col z-[99999]",
           isResetting && "transition-all ease-in-out duration-300",
           isCollapsed && "transition-all ease-in-out duration-300",
           isMobile && "w-0"
@@ -143,9 +145,17 @@ const Navigation = () => {
         </div>
         <div>
           <UserItem />
-          <Item label="Settings" icon={Settings2Icon} onClick={settings.onOpen} />
+          <Item
+            label="Settings"
+            icon={Settings2Icon}
+            onClick={settings.onOpen}
+          />
           <Item label="Search" icon={Search} isSearch onClick={search.onOpen} />
-          <Item onClick={handleCreate} label="Create a note" icon={PlusCircle} />
+          <Item
+            onClick={handleCreate}
+            label="Create a note"
+            icon={PlusCircle}
+          />
         </div>
         <div className="mt-4">
           <Item label="Add a note" icon={Plus} onClick={handleCreate} />
@@ -177,9 +187,16 @@ const Navigation = () => {
           isMobile && "left-0 w-full"
         )}
       >
-        {isCollapsed && (
+        {!!params.documentsId ? (
+          <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
+        ) : (
           <nav className="bg-transparent px-3 py-2 w-full" onClick={resetWidth}>
-            <MenuIcon role="button" className="h-6 w-6 text-muted-foreground" />
+            {isCollapsed && (
+              <MenuIcon
+                role="button"
+                className="h-6 w-6 text-muted-foreground"
+              />
+            )}
           </nav>
         )}
       </div>
